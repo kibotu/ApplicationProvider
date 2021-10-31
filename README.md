@@ -1,4 +1,4 @@
-# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider)
+# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider) [![Build Status](https://app.travis-ci.com/kibotu/ApplicationProvider.svg?branch=master)](https://app.travis-ci.com/kibotu/ApplicationProvider)
 
 # Retrieve the android application from anywhere
 Useful to develop a standalone library
