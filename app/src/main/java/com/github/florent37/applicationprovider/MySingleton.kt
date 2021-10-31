@@ -15,8 +15,8 @@ class MySingleton constructor() : CoroutineScope by MainScope() {
             val currentActivity = ActivityProvider.activity()
             Timber.d("activity : $currentActivity")
 
-            ActivityProvider.listenCurrentActivity.collect {  currentActivity ->
-                Timber.d("current activity : $currentActivity")
+            ActivityProvider.listenCurrentActivity.collect {
+                Timber.d("current activity : $it")
             }
         }
     }

@@ -27,5 +27,5 @@ ext{
     TARGET_SDK=31
     MIN_SDK = 14
 
-    libraryVersion = "1.0.5"
+    libraryVersion = "1.0.6"
 }
