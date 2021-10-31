@@ -24,8 +24,9 @@ task clean(type: Delete) {
 
 ext{
     COMPILE_SDK=31
+    BUILD_TOOLS_VERSION="31.0.0"
     TARGET_SDK=31
     MIN_SDK = 14
 
-    libraryVersion = "1.0.6"
+    libraryVersion = "1.0.7"
 }

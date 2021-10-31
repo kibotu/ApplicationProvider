@@ -3,7 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
+
     compileSdkVersion project.COMPILE_SDK
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
     defaultConfig {
         minSdkVersion project.MIN_SDK
         targetSdkVersion project.TARGET_SDK
@@ -12,8 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-
 
     // region java compile options
 

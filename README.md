@@ -56,12 +56,11 @@ Add it into your manifest
 
 # Download
 
-<a href='https://ko-fi.com/A160LCC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+[![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider)
 
-[ ![Download](https://api.bintray.com/packages/florent37/maven/applicationprovider/images/download.svg) ](https://bintray.com/florent37/maven/applicationprovider/)
 ```java
 dependencies {
-    implementation 'com.github.florent37:applicationprovider:(lastest version)'
+    implementation 'com.github.kibotu:ApplicationProvider:(lastest version)'
 }
 ```
 
