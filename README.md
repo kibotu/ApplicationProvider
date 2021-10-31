@@ -1,7 +1,22 @@
-# ApplicationProvider
+# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider)
 
 # Retrieve the android application from anywhere
 Useful to develop a standalone library
+
+# How to install
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.kibotu:ApplicationProvider:(lastest version)'
+}
+```
 
 ```kotlin
 //from anywhere
@@ -52,22 +67,6 @@ Add it into your manifest
 <provider
      android:name=".StethoProvider"
      android:authorities="${applicationId}.StethoInitializer" />
-```
-
-# Download
-
-Follow me on Twitter: [![Twitter Follow](https://img.shields.io/twitter/follow/wolkenschauer.svg?style=social)](https://twitter.com/wolkenschauer)
-
-Let me know what you think: [jan.rabe@kibotu.net](mailto:jan.rabe@kibotu.net)
-
-Contributions welcome!
-
-[![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider)
-
-```java
-dependencies {
-    implementation 'com.github.kibotu:ApplicationProvider:(lastest version)'
-}
 ```
 
 # Initializers
@@ -126,3 +125,11 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+
+Follow me on Twitter: [![Twitter Follow](https://img.shields.io/twitter/follow/wolkenschauer.svg?style=social)](https://twitter.com/wolkenschauer)
+
+Let me know what you think: [jan.rabe@kibotu.net](mailto:jan.rabe@kibotu.net)
+
+Contributions welcome!
+
+
