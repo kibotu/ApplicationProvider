@@ -14,7 +14,7 @@ abstract class ProviderInitializer : ContentProvider() {
         return true
     }
 
-    abstract fun initialize() : (Application) -> Unit
+    abstract fun initialize(): (Application) -> Unit
 
     override fun insert(uri: Uri, values: ContentValues?): Uri {
         throw Exception("unimplemented")

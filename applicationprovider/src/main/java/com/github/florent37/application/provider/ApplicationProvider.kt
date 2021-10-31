@@ -3,10 +3,7 @@ package com.github.florent37.application.provider
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentProvider
-import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
-import android.net.Uri
 import java.util.concurrent.ConcurrentLinkedQueue
 
 object ApplicationProvider {
@@ -15,7 +12,7 @@ object ApplicationProvider {
     @JvmStatic
     fun listen(listener: (Application) -> Unit) {
         val app = _appliation
-        if(app != null){
+        if (app != null) {
             listener(app)
         } else {
             applicationListeners.add(listener)
@@ -33,7 +30,7 @@ object ApplicationProvider {
 private var _appliation: Application? = null
     private set(value) {
         field = value
-        if(value != null){
+        if (value != null) {
             ApplicationProvider.applicationListeners.forEach {
                 it.invoke(value)
             }
@@ -51,7 +48,7 @@ val application: Application?
  *
  * //from https://github.com/LouisCAD/Splitties/tree/master/appctx
  */
-@SuppressLint("PrivateApi")
+@SuppressLint("PrivateApi", "DiscouragedPrivateApi")
 private fun initAndGetAppCtxWithReflection(): Application? {
     // Fallback, should only run once per non default process.
     val activityThread = Class.forName("android.app.ActivityThread")

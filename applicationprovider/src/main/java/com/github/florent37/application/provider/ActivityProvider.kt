@@ -3,6 +3,7 @@ package com.github.florent37.application.provider
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
@@ -43,16 +44,12 @@ enum class ActivityState {
     DESTROY
 }
 
-class ActivityAndState {
-    val name: String
-    val activity: WeakReference<Activity>
-    val state: ActivityState
-
-    constructor(activity: Activity, state: ActivityState) {
-        this.name = (activity as Any).toString() //the adress
-        this.activity = WeakReference(activity)
-        this.state = state
-    }
+class ActivityAndState(activity: Activity, val state: ActivityState) {
+    /**
+     *the address
+     */
+    val name: String = (activity as Any).toString()
+    val activity: WeakReference<Activity> = WeakReference(activity)
 }
 
 object ActivityProvider {
@@ -189,6 +186,7 @@ object ActivityProvider {
     internal val _activitiesState = ConflatedBroadcastChannel<ActivityAndState>()
     val listenActivitiesState: Flow<ActivityAndState> = _activitiesState.asFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun listenCreated() = callbackFlow<Activity> {
         val listener =
             object : ActivityCreatedListener { // implementation of some callback interface
@@ -201,6 +199,7 @@ object ActivityProvider {
         awaitClose { removeCreatedListener(listener) }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun listenStarted() = callbackFlow<Activity> {
         val listener =
             object : ActivityStartedListener { // implementation of some callback interface
@@ -263,8 +262,8 @@ object ActivityProvider {
 
 
     fun listenActivityChanged() = listenActivitiesState
-            .filter { it.state == ActivityState.RESUME }
-            .distinctUntilChangedBy { it.name }
+        .filter { it.state == ActivityState.RESUME }
+        .distinctUntilChangedBy { it.name }
 }
 
 class LastActivityProvider : EmptyProvider() {
@@ -273,44 +272,32 @@ class LastActivityProvider : EmptyProvider() {
             application.registerActivityLifecycleCallbacks(object :
                 Application.ActivityLifecycleCallbacks {
 
-                override fun onActivityCreated(activity: Activity?, savedInstanceState: Bundle?) {
-                    activity?.let {
-                        ActivityProvider.pingCreatedListeners(activity)
-                    }
+                override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                    ActivityProvider.pingCreatedListeners(activity)
                 }
 
-                override fun onActivityResumed(activity: Activity?) {
-                    activity?.let {
-                        ActivityProvider.pingResumedListeners(activity)
-                    }
+                override fun onActivityResumed(activity: Activity) {
+                    ActivityProvider.pingResumedListeners(activity)
                 }
 
-                override fun onActivityPaused(activity: Activity?) {
-                    activity?.let {
-                        ActivityProvider.pingPausedListeners(activity)
-                    }
+                override fun onActivityPaused(activity: Activity) {
+                    ActivityProvider.pingPausedListeners(activity)
                 }
 
-                override fun onActivityDestroyed(activity: Activity?) {
-                    activity?.let {
-                        ActivityProvider.pingDestroyedListeners(activity)
-                    }
+                override fun onActivityDestroyed(activity: Activity) {
+                    ActivityProvider.pingDestroyedListeners(activity)
                 }
 
 
-                override fun onActivityStarted(activity: Activity?) {
-                    activity?.let {
-                        ActivityProvider.pingStartedListeners(activity)
-                    }
+                override fun onActivityStarted(activity: Activity) {
+                    ActivityProvider.pingStartedListeners(activity)
                 }
 
-                override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {
+                override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
                 }
 
-                override fun onActivityStopped(activity: Activity?) {
-                    activity?.let {
-                        ActivityProvider.pingStoppedListeners(activity)
-                    }
+                override fun onActivityStopped(activity: Activity) {
+                    ActivityProvider.pingStoppedListeners(activity)
                 }
 
             })
