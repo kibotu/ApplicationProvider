@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion project.COMPILE_SDK
@@ -69,3 +70,15 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = "com.github.florent37"
+                artifactId = 'applicationprovider'
+                version = libraryVersion
+            }
+        }
+    }
+}
