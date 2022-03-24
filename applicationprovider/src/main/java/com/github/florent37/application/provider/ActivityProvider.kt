@@ -53,11 +53,17 @@ class ActivityAndState(activity: Activity, val state: ActivityState) {
 }
 
 object ActivityProvider {
+
     private val activityCreatedListeners = ConcurrentLinkedQueue<ActivityCreatedListener>()
+
     private val activityResumedListeners = ConcurrentLinkedQueue<ActivityResumedListener>()
+
     private val activityPausedListeners = ConcurrentLinkedQueue<ActivityPausedListener>()
+
     private val activityStoppedListeners = ConcurrentLinkedQueue<ActivityStoppedListener>()
+
     private val activityStartedListeners = ConcurrentLinkedQueue<ActivityStartedListener>()
+
     private val activityDestroyedListeners = ConcurrentLinkedQueue<ActivityDestroyedListener>()
 
     @JvmStatic
@@ -121,7 +127,7 @@ object ActivityProvider {
     }
 
     internal fun pingResumedListeners(activity: Activity) {
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.RESUME))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.RESUME))
         offerIfDiffer(activity)
         activityResumedListeners.forEach {
             it.onActivityResumed(activity)
@@ -129,7 +135,7 @@ object ActivityProvider {
     }
 
     internal fun pingPausedListeners(activity: Activity) {
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.PAUSE))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.PAUSE))
         activityPausedListeners.forEach {
             it.onActivityPaused(activity)
         }
@@ -137,28 +143,28 @@ object ActivityProvider {
 
     internal fun pingCreatedListeners(activity: Activity) {
         offerIfDiffer(activity)
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.CREATE))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.CREATE))
         activityCreatedListeners.forEach {
             it.onActivityCreated(activity)
         }
     }
 
     internal fun pingDestroyedListeners(activity: Activity) {
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.DESTROY))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.DESTROY))
         activityDestroyedListeners.forEach {
             it.onActivityDestroyed(activity)
         }
     }
 
     internal fun pingStartedListeners(activity: Activity) {
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.START))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.START))
         activityStartedListeners.forEach {
             it.onActivityStarted(activity)
         }
     }
 
     internal fun pingStoppedListeners(activity: Activity) {
-        _activitiesState.offer(ActivityAndState(activity, ActivityState.STOP))
+        _activitiesState.trySend(ActivityAndState(activity, ActivityState.STOP))
         activityStoppedListeners.forEach {
             it.onActivityStopped(activity)
         }
@@ -167,7 +173,7 @@ object ActivityProvider {
     private fun offerIfDiffer(newActivity: Activity) {
         val current = currentActivity
         if (current == null || current != newActivity) {
-            _currentActivity.offer(WeakReference(newActivity))
+            _currentActivity.trySend(WeakReference(newActivity))
         }
     }
 
@@ -178,83 +184,75 @@ object ActivityProvider {
 
     @JvmStatic
     val currentActivity: Activity?
-        get() {
-            return _currentActivity.valueOrNull?.get()
-        }
+        get() = _currentActivity.valueOrNull?.get()
 
 
     internal val _activitiesState = ConflatedBroadcastChannel<ActivityAndState>()
     val listenActivitiesState: Flow<ActivityAndState> = _activitiesState.asFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun listenCreated() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityCreatedListener { // implementation of some callback interface
-                override fun onActivityCreated(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenCreated(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityCreatedListener { // implementation of some callback interface
+            override fun onActivityCreated(activity: Activity) {
+                trySend(activity)
             }
+        }
         addCreatedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removeCreatedListener(listener) }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun listenStarted() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityStartedListener { // implementation of some callback interface
-                override fun onActivityStarted(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenStarted(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityStartedListener { // implementation of some callback interface
+            override fun onActivityStarted(activity: Activity) {
+                trySend(activity)
             }
+        }
         addStartedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removeStartedListener(listener) }
     }
 
-    fun listenResumed() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityResumedListener { // implementation of some callback interface
-                override fun onActivityResumed(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenResumed(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityResumedListener { // implementation of some callback interface
+            override fun onActivityResumed(activity: Activity) {
+                trySend(activity)
             }
+        }
         addResumedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removeResumedListener(listener) }
     }
 
-    fun listenDestroyed() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityDestroyedListener { // implementation of some callback interface
-                override fun onActivityDestroyed(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenDestroyed(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityDestroyedListener { // implementation of some callback interface
+            override fun onActivityDestroyed(activity: Activity) {
+                trySend(activity)
             }
+        }
         addDestroyedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removeDestroyedListener(listener) }
     }
 
-    fun listenStopped() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityStoppedListener { // implementation of some callback interface
-                override fun onActivityStopped(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenStopped(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityStoppedListener { // implementation of some callback interface
+            override fun onActivityStopped(activity: Activity) {
+                trySend(activity)
             }
+        }
         addStoppedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removeStoppedListener(listener) }
     }
 
-    fun listenPaused() = callbackFlow<Activity> {
-        val listener =
-            object : ActivityPausedListener { // implementation of some callback interface
-                override fun onActivityPaused(activity: Activity) {
-                    offer(activity)
-                }
+    fun listenPaused(): Flow<Activity> = callbackFlow {
+        val listener = object : ActivityPausedListener { // implementation of some callback interface
+            override fun onActivityPaused(activity: Activity) {
+                trySend(activity)
             }
+        }
         addPausedListener(listener)
         // Suspend until either onCompleted or external cancellation are invoked
         awaitClose { removePausedListener(listener) }
@@ -269,8 +267,7 @@ object ActivityProvider {
 class LastActivityProvider : EmptyProvider() {
     override fun onCreate(): Boolean {
         ApplicationProvider.listen { application ->
-            application.registerActivityLifecycleCallbacks(object :
-                Application.ActivityLifecycleCallbacks {
+            application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
 
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     ActivityProvider.pingCreatedListeners(activity)
