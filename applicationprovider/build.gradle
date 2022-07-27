@@ -34,7 +34,7 @@ android {
         jvmTarget = "11"
         freeCompilerArgs += [
                 // disable linting for opt-in annotations
-                "-Xopt-in=kotlin.RequiresOptIn",
+                "-opt-in=kotlin.RequiresOptIn",
         ]
     }
 
@@ -42,8 +42,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
 }
 
 ext {
