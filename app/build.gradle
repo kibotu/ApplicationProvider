@@ -4,12 +4,12 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion project.COMPILE_SDK
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdk project.COMPILE_SDK
+    namespace "com.github.florent37.applicationprovider"
 
     defaultConfig {
-        minSdkVersion project.MIN_SDK
-        targetSdkVersion project.TARGET_SDK
+        minSdk project.MIN_SDK
+        targetSdk project.TARGET_SDK
         applicationId "com.github.florent37.applicationprovider"
         versionCode 1
         versionName "1.0"
@@ -18,15 +18,15 @@ android {
 
     // region java compile options
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
+            languageVersion.set(JavaLanguageVersion.of(17))
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     // endregion
@@ -34,10 +34,11 @@ android {
     // region kotlin compile options
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+        allWarningsAsErrors = false
+        kotlinOptions.verbose = true
         freeCompilerArgs += [
-                // disable linting for opt-in annotations
-                "-opt-in=kotlin.RequiresOptIn",
+                "-Xjvm-default=all-compatibility"
         ]
     }
 
@@ -45,15 +46,15 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation project(":applicationprovider")
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'com.facebook.stetho:stetho:1.6.0'
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0'
 
-    implementation 'com.google.dagger:dagger:2.42'
-    kapt 'com.google.dagger:dagger-compiler:2.42'
+    implementation 'com.google.dagger:dagger:2.52'
+    kapt 'com.google.dagger:dagger-compiler:2.52'
 }

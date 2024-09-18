@@ -1,11 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '2.0.20'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.1'
+        classpath 'com.android.tools.build:gradle:8.6.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -17,16 +17,11 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
 
-
-ext{
-    COMPILE_SDK=33
-    BUILD_TOOLS_VERSION="33.0.0"
-    TARGET_SDK=33
-    MIN_SDK = 14
-
-    libraryVersion = "1.7.10"
+ext {
+    COMPILE_SDK = 35
+    BUILD_TOOLS_VERSION = "35.0.0"
+    TARGET_SDK = 35
+    MIN_SDK = 21
+    libraryVersion = "2.0.0"
 }

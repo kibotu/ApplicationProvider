@@ -1,4 +1,4 @@
-# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider) [![Build Status](https://app.travis-ci.com/kibotu/ApplicationProvider.svg?branch=master)](https://app.travis-ci.com/kibotu/ApplicationProvider)
+# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider) [![Android CI](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml/badge.svg)](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml)
 
 # Retrieve the android application from anywhere
 Useful to develop a standalone library

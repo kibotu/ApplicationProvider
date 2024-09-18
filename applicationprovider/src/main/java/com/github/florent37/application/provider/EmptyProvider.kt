@@ -7,7 +7,7 @@ import android.net.Uri
 
 abstract class Provider : EmptyProvider() {
 
-    abstract fun provide();
+    abstract fun provide()
 
     override fun onCreate(): Boolean {
         provide()

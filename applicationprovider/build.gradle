@@ -3,27 +3,25 @@ apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion project.COMPILE_SDK
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdk project.COMPILE_SDK
 
     defaultConfig {
-        minSdkVersion project.MIN_SDK
-        targetSdkVersion project.TARGET_SDK
-        versionCode 1
-        versionName "1.0"
+        namespace "com.github.florent37.application.provider"
+        minSdk project.MIN_SDK
+        targetSdk project.TARGET_SDK
     }
 
     // region java compile options
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
+            languageVersion.set(JavaLanguageVersion.of(17))
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     // endregion
@@ -31,10 +29,11 @@ android {
     // region kotlin compile options
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+        allWarningsAsErrors = false
+        kotlinOptions.verbose = true
         freeCompilerArgs += [
-                // disable linting for opt-in annotations
-                "-opt-in=kotlin.RequiresOptIn",
+                "-Xjvm-default=all-compatibility"
         ]
     }
 
@@ -42,8 +41,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
 }
 
 ext {
