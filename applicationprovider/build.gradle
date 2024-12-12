@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
-apply plugin: 'com.vanniktech.maven.publish'
 
 android {
     namespace "com.github.florent37.application.provider"
@@ -75,4 +73,26 @@ dependencies {
     implementation libs.supportAppCompat
 }
 
-apply from: "./../publish.gradle"
+if (!isJitpack) {
+    apply plugin: 'com.vanniktech.maven.publish'
+    mavenPublishing {
+        publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+        signAllPublications()
+    }
+}
+
+if (isJitpack) {
+    apply plugin: 'maven-publish'
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = GROUP
+                    artifactId = POM_ARTIFACT_ID
+                    version = version
+                }
+            }
+        }
+    }
+}
