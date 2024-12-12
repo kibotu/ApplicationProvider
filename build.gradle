@@ -10,9 +10,10 @@ buildscript {
     }
 
     dependencies {
-        classpath plugin.mavenCentralPublish
         classpath plugin.gradleBuildTools
         classpath plugin.kotlinGradle
+        classpath plugin.ksp
+        classpath plugin.mavenCentralPublish
     }
 }
 
