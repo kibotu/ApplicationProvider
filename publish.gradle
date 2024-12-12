@@ -5,8 +5,8 @@ if (System.getenv("JITPACK") == "true") {
             publications {
                 release(MavenPublication) {
                     from components.release
-                    groupId = "com.github.florent37"
-                    artifactId = 'applicationprovider'
+                    groupId = GROUP
+                    artifactId = POM_ARTIFACT_ID
                     version = VERSION_NAME
                 }
             }
