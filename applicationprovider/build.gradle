@@ -79,10 +79,13 @@ dependencies {
     implementation libs.supportAppCompat
 }
 
-mavenPublishing {
-    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
-    signAllPublications()
-}
+//if (isJitPack) {
+    mavenPublishing {
+        publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+//        signAllPublications()
+        signMavenPublication
+    }
+//}
 
 afterEvaluate {
     publishing {
@@ -94,5 +97,12 @@ afterEvaluate {
                 version = VERSION_NAME
             }
         }
+    }
+}
+
+preBuild.dependsOn tasks.register('printEnv') {
+    doLast {
+        def proc = "env".execute()
+        proc.waitForProcessOutput(System.out, System.err)
     }
 }
