@@ -31,10 +31,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Extract version from tag
+        id: extract_version
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          if [[ $TAG_NAME =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::set-output name=SEMVER_TAG::$TAG_NAME"
+          else
+            echo "Not a semver tag. Exiting..."
+            exit 1 # Exit if it is not a semver tag.
+          fi
+
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package to Maven Central Repository
-        run: ./gradlew assemble publishToMavenCentral --no-configuration-cache --refresh-dependencies --s
+        run: ./gradlew :ApplicationProvider:assemble :ApplicationProvider:publishToMavenCentral -Pversion=${{ steps.extract_version.outputs.SEMVER_TAG }} --no-configuration-cache --refresh-dependencies --s
