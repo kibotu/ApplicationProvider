@@ -79,13 +79,12 @@ dependencies {
     implementation libs.supportAppCompat
 }
 
-//if (isJitPack) {
-    mavenPublishing {
-        publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
-//        signAllPublications()
-        signMavenPublication()
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    if (!isJitPack) {
+        signAllPublications()
     }
-//}
+}
 
 afterEvaluate {
     publishing {
