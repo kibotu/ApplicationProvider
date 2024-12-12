@@ -1,4 +1,5 @@
-# ApplicationProvider [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider) [![Android CI](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml/badge.svg)](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml) [![API](https://img.shields.io/badge/Min%20API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23) [![API](https://img.shields.io/badge/Target%20API-35%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=35) [![API](https://img.shields.io/badge/Java-17-brightgreen.svg?style=flat)](https://www.oracle.com/java/technologies/javase/17all-relnotes.html)
+# ApplicationProvider ![Maven Central Version](https://img.shields.io/maven-central/v/net.kibotu/ApplicationProvider)
+ [![](https://jitpack.io/v/kibotu/ApplicationProvider.svg)](https://jitpack.io/#kibotu/ApplicationProvider) [![Android CI](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml/badge.svg)](https://github.com/kibotu/ApplicationProvider/actions/workflows/android.yml) [![API](https://img.shields.io/badge/Min%20API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23) [![API](https://img.shields.io/badge/Target%20API-35%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=35) [![API](https://img.shields.io/badge/Java-17-brightgreen.svg?style=flat)](https://www.oracle.com/java/technologies/javase/17all-relnotes.html)
 
 # Retrieve the android application from anywhere
 Useful to develop a standalone library
@@ -131,5 +132,4 @@ Follow me on Twitter: [![Twitter Follow](https://img.shields.io/twitter/follow/w
 Let me know what you think: [jan.rabe@kibotu.net](mailto:jan.rabe@kibotu.net)
 
 Contributions welcome!
-
 
