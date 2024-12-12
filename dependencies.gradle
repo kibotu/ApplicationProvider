@@ -9,13 +9,11 @@ ext {
     // @see https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib-jdk8
     kotlinVersion = "2.1.0"
 
-    if(version != "unspecified") {
-        VERSION_NAME = version
-    }
-
-    println "Injected variables - App Version"
-    println "Version Name: $VERSION_NAME"
-    println "Version Code: $VERSION_CODE"
+    println "Compile Version: $compileSdkVer"
+    println "Min SDK Version: $minSdkVer"
+    println "Target SDK Version: $targetSdkVer"
+    println "Kotlin: $kotlinVersion"
+    println "Version Name: $version"
 }
 
 ext.plugin = [

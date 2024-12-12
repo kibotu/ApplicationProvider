@@ -11,8 +11,6 @@ android {
     defaultConfig {
         minSdk minSdkVer
         targetSdk targetSdkVer
-        versionCode VERSION_CODE.toInteger()
-        versionName VERSION_NAME
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'

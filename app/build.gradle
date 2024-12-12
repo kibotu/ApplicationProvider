@@ -11,8 +11,7 @@ android {
         minSdk minSdkVer
         targetSdk targetSdkVer
         applicationId "com.github.florent37.applicationprovider"
-        versionCode VERSION_CODE.toInteger()
-        versionName VERSION_NAME
+        versionName version
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
