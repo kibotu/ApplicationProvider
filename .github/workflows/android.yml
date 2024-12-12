@@ -48,7 +48,4 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package to Maven Central Repository
-        run: |
-          SEMVER_TAG=$(grep SEMVER_TAG $GITHUB_STATE | cut -d '=' -f2)
-          echo $SEMVER_TAG
-          ./gradlew assemble publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$SEMVER_TAG 
+        run: ./gradlew assemble publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$GITHUB_REF_NAME
