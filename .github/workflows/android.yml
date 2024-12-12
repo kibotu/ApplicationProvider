@@ -36,7 +36,7 @@ jobs:
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
           if [[ $TAG_NAME =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::set-output name=SEMVER_TAG::$TAG_NAME"
+            echo "SEMVER_TAG=$TAG_NAME" >> $GITHUB_STATE
           else
             echo "Not a semver tag. Exiting..."
             exit 1 # Exit if it is not a semver tag.
@@ -48,4 +48,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package to Maven Central Repository
-        run: ./gradlew :ApplicationProvider:assemble :ApplicationProvider:publishToMavenCentral -Pversion=${{ steps.extract_version.outputs.SEMVER_TAG }} --no-configuration-cache --refresh-dependencies --s
+        run: |
+          SEMVER_TAG=$(grep SEMVER_TAG $GITHUB_STATE | cut -d '=' -f2)
+          ./gradlew :ApplicationProvider:assemble publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$SEMVER_TAG 
