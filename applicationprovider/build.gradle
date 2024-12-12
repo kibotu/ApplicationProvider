@@ -75,4 +75,9 @@ dependencies {
     implementation libs.supportAppCompat
 }
 
-apply from: "./../publish.gradle"
+//apply from: "./../publish.gradle"
+apply plugin: 'com.vanniktech.maven.publish'
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+}

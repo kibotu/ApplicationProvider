@@ -50,4 +50,5 @@ jobs:
       - name: Publish package to Maven Central Repository
         run: |
           SEMVER_TAG=$(grep SEMVER_TAG $GITHUB_STATE | cut -d '=' -f2)
-          ./gradlew publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$SEMVER_TAG 
+          echo $SEMVER_TAG
+          ./gradlew assemble publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$SEMVER_TAG 
