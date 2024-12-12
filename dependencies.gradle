@@ -12,7 +12,6 @@ ext {
     VERSION_NAME = 0
 
     isJitPack = System.getenv("JITPACK") == "true"
-    println("iisJitPack=$isJitPack")
 }
 
 ext.plugin = [
