@@ -8,10 +8,6 @@ ext {
 
     // @see https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib-jdk8
     kotlinVersion = "2.1.0"
-
-    VERSION_NAME = 0
-
-    isJitPack = System.getenv("JITPACK") == "true"
 }
 
 ext.plugin = [

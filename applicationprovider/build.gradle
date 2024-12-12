@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.vanniktech.maven.publish'
-apply plugin: 'maven-publish'
 
 android {
     namespace "com.github.florent37.application.provider"
@@ -16,8 +14,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
-
-        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -79,29 +75,4 @@ dependencies {
     implementation libs.supportAppCompat
 }
 
-mavenPublishing {
-    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
-    if (!isJitPack) {
-        signAllPublications()
-    }
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.github.florent37"
-                artifactId = 'applicationprovider'
-                version = VERSION_NAME
-            }
-        }
-    }
-}
-
-preBuild.dependsOn tasks.register('printEnv') {
-    doLast {
-        def proc = "env".execute()
-        proc.waitForProcessOutput(System.out, System.err)
-    }
-}
+apply from: "./../publish.gradle"
