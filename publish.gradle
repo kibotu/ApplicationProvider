@@ -1,0 +1,23 @@
+if (System.getenv("JITPACK") == "true") {
+    apply plugin: 'maven-publish'
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                    groupId = "com.github.florent37"
+                    artifactId = 'applicationprovider'
+                    version = VERSION_NAME
+                }
+            }
+        }
+    }
+}
+
+if (!System.getenv("JITPACK") == "true") {
+    apply plugin: 'com.vanniktech.maven.publish'
+    mavenPublishing {
+        publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+        signAllPublications()
+    }
+}
