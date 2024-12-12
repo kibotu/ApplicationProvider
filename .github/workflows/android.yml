@@ -54,4 +54,4 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Publish package to Maven Central Repository
-        run: ./gradlew publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$GITHUB_REF_NAME
+        run: ./gradlew :applicationprovider:assemble :applicationprovider:publishToMavenCentral --no-configuration-cache --refresh-dependencies --s -Pversion=$GITHUB_REF_NAME
