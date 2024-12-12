@@ -1,1 +1,2 @@
-include ':app', ':applicationprovider'
+include ':app'
+include ':applicationprovider'

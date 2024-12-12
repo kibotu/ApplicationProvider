@@ -1,12 +1,18 @@
 buildscript {
-    ext.kotlin_version = '2.0.20'
+
+    apply from: "./dependencies.gradle"
+
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.6.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath plugin.mavenCentralPublish
+        classpath plugin.gradleBuildTools
+        classpath plugin.kotlinGradle
     }
 }
 
@@ -14,14 +20,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
     }
-}
-
-
-ext {
-    COMPILE_SDK = 35
-    BUILD_TOOLS_VERSION = "35.0.0"
-    TARGET_SDK = 35
-    MIN_SDK = 21
-    libraryVersion = "2.0.0"
 }

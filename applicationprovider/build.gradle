@@ -1,14 +1,33 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'maven-publish'
+apply plugin: 'com.vanniktech.maven.publish'
 
 android {
-    compileSdk project.COMPILE_SDK
+    namespace "com.github.florent37.application.provider"
+    compileSdk compileSdkVer
+    buildToolsVersion = buildToolsVer
 
     defaultConfig {
-        namespace "com.github.florent37.application.provider"
-        minSdk project.MIN_SDK
-        targetSdk project.TARGET_SDK
+        minSdk minSdkVer
+        targetSdk targetSdkVer
+        versionCode VERSION_CODE.toInteger()
+        versionName VERSION_NAME
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../proguard-debug.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', '../proguard-release.pro'
+        }
     }
 
     // region java compile options
@@ -38,47 +57,28 @@ android {
     }
 
     // endregion
+
+    // region exclude duplicated meta inf files
+
+    packagingOptions {
+        // DebugProbesKt.bin is used for java debugging (not needed for android)
+        // Hint: https://github.com/Kotlin/kotlinx.coroutines/issues/2274
+        exclude 'DebugProbesKt.bin'
+
+        excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        // https://stackoverflow.com/a/61893957/1006741
+        excludes -= "/META-INF/*.kotlin_module"
+    }
+
+    // endregion
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
+    coreLibraryDesugaring desugaring.jdk
+    implementation libs.supportAppCompat
 }
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'applicationprovider'
-    orgName = 'florent37'
-
-    publishedGroupId = 'com.github.florent37'
-    libraryName = 'ApplicationProvider'
-    artifact = 'applicationprovider'
-
-    libraryDescription = 'ApplicationProvider'
-
-    siteUrl = 'https://github.com/florent37/ApplicationProvider'
-    gitUrl = 'https://github.com/florent37/ApplicationProvider.git'
-
-    libraryVersion = rootProject.ext.libraryVersion
-
-    developerId = 'florent37'
-    developerName = 'florent37'
-    developerEmail = 'champigny.florent@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.github.florent37"
-                artifactId = 'applicationprovider'
-                version = libraryVersion
-            }
-        }
-    }
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
 }
